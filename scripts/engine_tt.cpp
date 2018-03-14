@@ -40,6 +40,7 @@
 #include "TeamPurchaseSettingsDefClass.h"
 #include "PurchaseSettingsDefClass.h"
 #include "PowerUpGameObjDef.h"
+
 class WideStringClass;
 
 
@@ -132,6 +133,8 @@ SCRIPTS_API uno Update_Network_Object;
 SCRIPTS_API unop Update_Network_Object_Player;
 SCRIPTS_API sct Send_Client_Text;
 SCRIPTS_API sca Send_Client_Announcement;
+SCRIPTS_API spkm Send_Player_Kill_Message;
+SCRIPTS_API spr Send_Purchase_Response;
 SCRIPTS_API dod Do_Objectives_Dlg;
 SCRIPTS_API sl Set_Player_Limit;
 SCRIPTS_API gl Get_Player_Limit;
@@ -204,6 +207,24 @@ SCRIPTS_API sovfp Set_Object_Visibility_For_Player;
 SCRIPTS_API sov Set_Object_Visibility;
 SCRIPTS_API lscg Lock_Soldier_Collision_Group;
 SCRIPTS_API ulscg Unlock_Soldier_Collision_Group;
+SCRIPTS_API iea Is_Engine_Enabled;
+SCRIPTS_API ss Stop_Timer;
+SCRIPTS_API ss2 Stop_Timer2;
+SCRIPTS_API htm Has_Timer;
+SCRIPTS_API cwsdp Create_2D_Wave_Sound_Dialog_Player;
+SCRIPTS_API fpup Force_Position_Update_Player;
+SCRIPTS_API sbgmo Set_Background_Music_Player_Offset;
+SCRIPTS_API setcam Set_Camera_Player;
+SCRIPTS_API settran Set_Definition_TranslationID_Player;
+SCRIPTS_API setnur Set_Net_Update_Rate_Player;
+SCRIPTS_API fou Force_Orientation_Update;
+SCRIPTS_API foup Force_Orientation_Update_Player;
+SCRIPTS_API cwscp Create_2D_Wave_Sound_Cinematic_Player;
+SCRIPTS_API ftu Force_Turret_Update;
+SCRIPTS_API ftup Force_Turret_Update_Player;
+SCRIPTS_API fvu Force_Velocity_Update;
+SCRIPTS_API fvup Force_Velocity_Update_Player;
+SCRIPTS_API schn Set_Camera_Host_Network;
 
 SCRIPTS_API bool Can_Team_Build_Vehicle(int Team)
 {
@@ -376,6 +397,23 @@ SCRIPTS_API void Create_2D_WAV_Sound_Team(const char *soundname,int team)
 	}
 }
 
+SCRIPTS_API void Create_2D_WAV_Sound_Team_Dialog(const char *soundname,int team)
+{
+	SLNode<SoldierGameObj> *x = GameObjManager::StarGameObjList.Head();
+	while (x)
+	{
+		GameObject *o = x->Data();
+		if (o)
+		{
+			if ((Get_Object_Type(o) == team) || (team == 2))
+			{
+				Create_2D_Wave_Sound_Dialog_Player(o,soundname);
+			}
+		}
+		x = x->Next();
+	}
+}
+
 SCRIPTS_API void Create_3D_WAV_Sound_At_Bone_Team(const char *soundname,GameObject *obj,const char *bonename,int team)
 {
 	if (!obj)
@@ -436,7 +474,7 @@ SCRIPTS_API void Ranged_Stealth_On_Team(Gap_ListNode* FirstNode)
 					test = o->Get_Lock_Team();
 				}
 				const VehicleGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed())
+				if (!d->Is_Stealthed() && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary") && !o->Peek_Model()->Is_Hidden())
 				{
 					while (current)
 					{
@@ -470,7 +508,7 @@ SCRIPTS_API void Ranged_Stealth_On_Team(Gap_ListNode* FirstNode)
 			if (o)
 			{
 				const VehicleGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed())
+				if (!d->Is_Stealthed() && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary")  && !o->Peek_Model()->Is_Hidden())
 				{
 					Commands->Enable_Stealth(o, false);
 				}
@@ -491,7 +529,7 @@ SCRIPTS_API void Ranged_Stealth_On_Team(Gap_ListNode* FirstNode)
 				Gap_ListNode *current = FirstNode;
 				int test = Commands->Get_Player_Type(o);
 				const SoldierGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed())
+				if (!d->Is_Stealthed() && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary") && !o->Peek_Model()->Is_Hidden())
 				{
 					while (current)
 					{
@@ -525,7 +563,7 @@ SCRIPTS_API void Ranged_Stealth_On_Team(Gap_ListNode* FirstNode)
 			if (o)
 			{
 				const SoldierGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed())
+				if (!d->Is_Stealthed() && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary")  && !o->Peek_Model()->Is_Hidden())
 				{
 					Commands->Enable_Stealth(o, false);
 				}
@@ -549,7 +587,7 @@ SCRIPTS_API void Ranged_Gap_Effect(Gap_ListNode* FirstNode)
 				Gap_ListNode *current = FirstNode;
 				int test = Commands->Get_Player_Type(o);
 				const VehicleGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed() && d->Get_Type() != VEHICLE_TYPE_SUB)
+				if (!d->Is_Stealthed() && d->Get_Type() != VEHICLE_TYPE_SUB && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary") && !o->Peek_Model()->Is_Hidden())
 				{
 					while (current)
 					{
@@ -583,7 +621,7 @@ SCRIPTS_API void Ranged_Gap_Effect(Gap_ListNode* FirstNode)
 			if (o)
 			{
 				const VehicleGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed())
+				if (!d->Is_Stealthed() && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary") && !o->Peek_Model()->Is_Hidden())
 				{
 					Commands->Enable_Stealth(o, false);
 				}
@@ -605,7 +643,7 @@ SCRIPTS_API void Ranged_Gap_Effect(Gap_ListNode* FirstNode)
 				Gap_ListNode *current = FirstNode;
 				int test = Commands->Get_Player_Type(o);
 				const SoldierGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed())
+				if (!d->Is_Stealthed() && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary") && !o->Peek_Model()->Is_Hidden())
 				{
 					while (current)
 					{
@@ -654,7 +692,7 @@ SCRIPTS_API void Ranged_Gap_Effect(Gap_ListNode* FirstNode)
 			if (o)
 			{
 				const SoldierGameObjDef *d = &o->Get_Definition();
-				if (!d->Is_Stealthed())
+				if (!d->Is_Stealthed() && !Is_Script_Attached(o,"Stealth_Powerup") && !Is_Script_Attached(o,"Stealth_Stationary") && !o->Peek_Model()->Is_Hidden())
 				{
 					Commands->Enable_Stealth(o, false);
 					if (Commands->Is_A_Star(o))
@@ -1050,6 +1088,11 @@ AT2(0x006F2BD0,0x006F2190);
 RENEGADE_FUNCTION
 void BuildingGameObj::Collect_Building_Components()
 AT2(0x006843E0,0x00683C80);
+
+RENEGADE_FUNCTION
+void BuildingGameObj::Find_Closest_Poly(const Vector3 &pos, float *distance2)
+AT2(0x00685630,0x00684ED0);
+
 RENEGADE_FUNCTION
 void BaseControllerClass::Enable_Radar(bool Enable)
 AT3(0x006EFD00,0x006EF2C0,0x00558ED0);

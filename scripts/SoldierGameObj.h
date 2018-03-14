@@ -196,6 +196,17 @@ public:
 	bool Block_Action_Key() { return BlockActionKey; }
 	void Set_Freeze(bool onoff) {Freeze = onoff; Set_Object_Dirty_Bit(BIT_RARE, true);}
 	bool Is_Frozen() {return Freeze;}
+	void Lock_Collision_Mode(bool lockCollisionGroup,Collision_Group_Type lock);
+	Collision_Group_Type *Get_Locked_Collision_Mode();
+	void Set_Can_Play_Damage_Animations(bool onoff) {CanPlayDamageAnimations = onoff;Set_Object_Dirty_Bit(BIT_RARE, true);}
+	bool Can_Play_Damage_Animations() {return CanPlayDamageAnimations;}
+	void Set_Scale_Across_Network(float scale){NetworkRescale = scale;Set_Object_Dirty_Bit(BIT_RARE, true);}
+	float Get_Scale_Across_Network(){return NetworkRescale;}
+	void Set_Movement_Loiters_Allowed(bool allowed){movementLoitersAllowed = allowed;};
+	bool Get_Movement_Loiter_Allowed(){return movementLoitersAllowed;};
+	bool Get_Use_Stock_Ghost_Behavior(){return useStockGhostBehavior;}
+	void Set_Override_Muzzle_Direction(bool override){OverrideMuzzleDirection = override; Set_Object_Dirty_Bit(BIT_RARE, true);};
+	bool Get_Override_Muzzle_Direction(){return OverrideMuzzleDirection;};
 
 	cPlayer *Get_Player() {
 		return (cPlayer*)Get_Player_Data();
@@ -267,6 +278,12 @@ protected:
 	void						Update_Healing_Effect( void );
 	int head_bone;
 	int neck_bone;
+	bool                        CanPlayDamageAnimations;
+	float						NetworkRescale;
+	float						LastScale;
+	bool						movementLoitersAllowed;
+	bool						useStockGhostBehavior;
+	bool						OverrideMuzzleDirection;
 	TT_DEPRECATED("Do not use") int						Check(void);
 }; // size: 3404
 
