@@ -193,6 +193,7 @@ copy "$(TargetPath)" "%RenServerPath%\$(TargetFileName)"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cAMpaScripts.cpp" />
+    <ClCompile Include="Capturable.cpp" />
     <ClCompile Include="CommandLineParser.cpp" />
     <ClCompile Include="Crc32.cpp" />
     <ClCompile Include="da.cpp" />
@@ -385,6 +386,7 @@ copy "$(TargetPath)" "%RenServerPath%\$(TargetFileName)"
     <ClInclude Include="AudioCallbackListClass.h" />
     <ClInclude Include="boxrenderobjclass.h" />
     <ClInclude Include="BuildingAggregateDefClass.h" />
+    <ClInclude Include="Capturable.h" />
     <ClInclude Include="cNetEvent.h" />
     <ClInclude Include="ConversationClass.h" />
     <ClInclude Include="cScTextObj.h" />
