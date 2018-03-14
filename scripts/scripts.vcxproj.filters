@@ -547,6 +547,9 @@
     <ClCompile Include="Capturable.cpp">
       <Filter>MPF\Capturable</Filter>
     </ClCompile>
+    <ClCompile Include="Beaconing_Prevention.cpp">
+      <Filter>MPF</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AABoxClass.h">
@@ -1598,6 +1601,9 @@
     </ClInclude>
     <ClInclude Include="Capturable.h">
       <Filter>MPF\Capturable</Filter>
+    </ClInclude>
+    <ClInclude Include="Beaconing_Prevention.h">
+      <Filter>MPF</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

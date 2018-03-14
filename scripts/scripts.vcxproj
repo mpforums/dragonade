@@ -192,6 +192,7 @@ copy "$(TargetPath)" "%RenServerPath%\$(TargetFileName)"
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Beaconing_Prevention.cpp" />
     <ClCompile Include="cAMpaScripts.cpp" />
     <ClCompile Include="Capturable.cpp" />
     <ClCompile Include="CommandLineParser.cpp" />
@@ -384,6 +385,7 @@ copy "$(TargetPath)" "%RenServerPath%\$(TargetFileName)"
     <ClInclude Include="AudibleSoundDefinitionClass.h" />
     <ClInclude Include="audiocallback.h" />
     <ClInclude Include="AudioCallbackListClass.h" />
+    <ClInclude Include="Beaconing_Prevention.h" />
     <ClInclude Include="boxrenderobjclass.h" />
     <ClInclude Include="BuildingAggregateDefClass.h" />
     <ClInclude Include="Capturable.h" />
